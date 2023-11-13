@@ -12,7 +12,6 @@ def generate_number_tier(original_file):
             line = line.strip()
             new_file.append(line)
 
-
             if line == "name = \"sentence - words\"":
                 word_tier = True
             if word_tier:
@@ -32,20 +31,21 @@ def generate_number_tier(original_file):
                                 token_count[token] += 1
                             line = "text = \"" + str(token_count[token]) + "\""
                     number_tier.append(line)
-    xmin = new_file[3][7:]
-    xmax = new_file[4][7:]
-    size = int(new_file[6][7:])
-    new_file[6] = "size = " + str(size + 1)
-    number_tier_boilerplate = ["item ["+str(size+1)+"]:",
-                               'class = "IntervalTier"',
-                               'name = "Number"',
+    xmin = new_file[3][7:] # The xmin and xmax variables represent the length in seconds of the file. These are
+    xmax = new_file[4][7:] # always on the 4th and 5th lines of the TextGrid, hence the use of indices 3 and 4.
+    size = int(new_file[6][7:]) # Similarly, the size of the TextGrid represents the amount of tiers.
+    new_file[6] = "size = " + str(size + 1) # We need to change the size of our new file to be 1 + the size
+                                            # of the original, as we are adding a tier.
+    number_tier_metadata = ["item ["+str(size+1)+"]:",   # Necessary tier metadata. The name is currently fixed to
+                               'class = "IntervalTier"', # "Number" to avoid user input. This can be changed in
+                               'name = "Number"',        # Praat anyways.
                                "xmin = " + xmin,
                                "xmax = " + xmax,
                                "intervals: size = " + interval_size]
-    with open("newfile.txt", "w") as file_2:
+    with open("number_tier_output.txt", "w") as file_2: # Write the new file.
         for line in new_file:
             file_2.write(line + "\n")
-        for line in number_tier_boilerplate:
+        for line in number_tier_metadata:
             file_2.write(line + "\n")
         for line in number_tier:
             file_2.write(line + "\n")

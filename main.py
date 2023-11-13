@@ -1,3 +1,4 @@
+import streamlit as st
 def generate_number_tier(original_file):
 
     line_buffer = 0 # Prevents us from copying the tier metadata. The program wants to add lines
@@ -50,3 +51,22 @@ def generate_number_tier(original_file):
         for line in number_tier:
             file_2.write(line + "\n")
 generate_number_tier("Input_test.TextGrid")
+header = st.container()
+body = st.container()
+file_upload = st.container()
+with header:
+    st.title("Welcome to the Praat Number Tier generator")
+    st.text("This program automatically count words in Praat.")
+with body:
+    st.header("How it works")
+    st.text("The input must be a .TextGrid or .txt, with a tier titled \"sentence - words\" \n"
+            "being the last most tier. There can be any number of tiers above. The sentence - words\n"
+            " tier must contain various words, each delimited by a pair of boundaries. The program \n"
+            "will ignore empty intervals and create a new file, identical to the input file, but with\n"
+            " an added Number tier. The Number tier will have the same boundaries as the sentence - \n"
+            "words tier. For each interval with a word in it, the Number tier will contain a number \n"
+            "corresponding to the amount of times that word has occured, starting from 1.")
+with file_upload:
+    st.header("File input/output")
+    input_file = st.file_uploader("Upload file:")
+    output_file = generate_number_tier(input_file)

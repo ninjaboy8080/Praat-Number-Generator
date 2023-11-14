@@ -50,7 +50,8 @@ def generate_number_tier(original_file):
             file_2.write(line + "\n")
         for line in number_tier:
             file_2.write(line + "\n")
-generate_number_tier("Input_test.TextGrid")
+    return file_2
+print(generate_number_tier("Input_test.TextGrid"))
 header = st.container()
 body = st.container()
 file_upload = st.container()
@@ -69,4 +70,10 @@ with body:
 with file_upload:
     st.header("File input/output")
     input_file = st.file_uploader("Upload file:")
-    output_file = generate_number_tier(input_file)
+    if input_file is not None:
+        output_file = generate_number_tier(input_file)
+        st.download_button(output_file.getValue())
+    try:
+        output_file = generate_number_tier(input_file)
+    except:
+        print("No file found")

@@ -1,9 +1,6 @@
 import streamlit as st
-from io import TextIOWrapper
-from tempfile import NamedTemporaryFile
 import pandas
 def generate_number_tier(original_file):
-
     line_buffer = 0 # Prevents us from copying the tier metadata. The program wants to add lines
                     # after reading the target tier name. However, there are lines underneath that we
                     # don't want to copy. Namely, xmin, xmax, etc. There are 4 of these lines.
@@ -23,11 +20,9 @@ def generate_number_tier(original_file):
             word_tier = True
         if word_tier:
             line_buffer += 1
-
             if line_buffer == 4:
                 interval_size = line[18:] # The number of boundaries in the sentence tier, and by extension,
                                           # the number tier too.
-
             if line_buffer > 4: # As mentioned above, there are 4 lines of metadata we want to skip.
                 if "text" in line:
                     token = line[8:-2]
@@ -49,18 +44,14 @@ def generate_number_tier(original_file):
                                "xmin = " + xmin,
                                "xmax = " + xmax,
                                "intervals: size = " + interval_size]
-    with open("number_tier_output.txt", "w") as file_2: # Write the new file.
-        for line in new_file:
-            file_2.write(line + "\n")
-        for line in number_tier_metadata:
-            file_2.write(line + "\n")
-        for line in number_tier:
-            file_2.write(line + "\n")
-    with open("number_tier_output.txt", 'r') as output:
-        txt_convert = ""
-        for line in output.readlines():
-            txt_convert += line
-        return txt_convert
+    string_output = ""
+    for line in new_file:
+        string_output += line + "\n"
+    for line in number_tier_metadata:
+        string_output += line + "\n"
+    for line in number_tier:
+        string_output += line + "\n"
+    return string_output
 header = st.container()
 body = st.container()
 file_upload = st.container()

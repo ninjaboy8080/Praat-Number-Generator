@@ -86,8 +86,8 @@ def generate_number_tier(original_file, mode='d'):
 # Everything below is streamlit frontend
 header = st.container()
 body = st.container()
-file_upload = st.container(key=1)
-file_upload2 = st.container(key=2) # Necessary
+file_upload = st.container(key="default")
+file_upload2 = st.container(key="alternate") # Necessary
 with header:
     st.title("Welcome to the Praat Number Tier generator")
     st.text("This program automatically counts words in Praat.")

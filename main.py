@@ -34,7 +34,7 @@ def generate_number_tier(original_file, mode='d'):
     number_tier = [] # The new tier to be added, represented as a list of boundaries
     token_count = {} # A dictionary of all the words and how many times each has occurred
     if mode == "alt":
-        token_count = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0}
+        token_count = {"non-target": 0, "fricatives": 0, "affricates": 0}
     word_tier = False # A boolean to track whether or not the program has read up to the word tier
     for _, line in original_file.iterrows():
         line = line['data']
@@ -59,6 +59,12 @@ def generate_number_tier(original_file, mode='d'):
                             line = "text = \"" + str(token_count[token]) + "\""
                         if mode == "alt":
                             word_category = get_word_category(token)
+                            if word_category == 0:
+                                word_category = "non-target"
+                            elif word_category in range(1,3):
+                                word_category = "affricates"
+                            else:
+                                word_category = "fricatives"
                             token_count[word_category] += 1
                             line = "text = \"" + str(token_count[word_category]) + "\""
                 number_tier.append(line)

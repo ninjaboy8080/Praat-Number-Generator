@@ -109,8 +109,8 @@ with file_upload:
         st.download_button(label="Output Download",data=output_file,file_name="PraatNumGen_Output.TextGrid")
 with file_upload2:
     st.header("Alternate file input/output")
-    input_file = st.file_uploader("Upload file:", type=["TextGrid"])
-    if input_file is not None:
+    input_file2 = st.file_uploader("Upload file:", type=["TextGrid"])
+    if input_file2 is not None:
         input_csv = pandas.read_csv(input_file, names=['data'])
         output_file = generate_number_tier(input_csv, mode='alt')
         st.download_button(label="Output Download", data=output_file, file_name="PraatNumGen_Output.TextGrid")

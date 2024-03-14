@@ -86,8 +86,8 @@ def generate_number_tier(original_file, mode='d'):
 # Everything below is streamlit frontend
 header = st.container()
 body = st.container()
-file_upload = st.container(key="default")
-file_upload2 = st.container(key="alternate") # Necessary
+file_upload = st.container()
+file_upload2 = st.container() # Necessary?
 with header:
     st.title("Welcome to the Praat Number Tier generator")
     st.text("This program automatically counts words in Praat.")
@@ -102,14 +102,14 @@ with body:
             "corresponding to the amount of times that word has occurred, starting from 1.")
 with file_upload:
     st.header("File input/output")
-    input_file = st.file_uploader("Upload file:", type=["TextGrid"])
+    input_file = st.file_uploader("Upload file:", type=["TextGrid"], key='default')
     if input_file is not None:
         input_csv = pandas.read_csv(input_file, names=['data'])
         output_file = generate_number_tier(input_csv)
         st.download_button(label="Output Download",data=output_file,file_name="PraatNumGen_Output.TextGrid")
 with file_upload2:
     st.header("Alternate file input/output")
-    input_file2 = st.file_uploader("Upload file:", type=["TextGrid"])
+    input_file2 = st.file_uploader("Upload file:", type=["TextGrid"], key='alternate')
     if input_file2 is not None:
         input_csv = pandas.read_csv(input_file, names=['data'])
         output_file = generate_number_tier(input_csv, mode='alt')
